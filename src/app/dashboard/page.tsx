@@ -7,9 +7,51 @@ import { NicheTabs } from "@/components/dashboard/niche-tabs";
 import { LeadCard } from "@/components/dashboard/lead-card";
 import { IcebreakerSheet } from "@/components/dashboard/icebreaker-sheet";
 import { Lead } from "@/lib/supabase";
-import { Loader2, Radar, AlertCircle, Clock, Zap } from "lucide-react";
+import { RadarIcon, LightningIcon, TimerIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+// Loading spinner component
+function Spinner({ className }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  );
+}
+
+// Alert icon component
+function AlertIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="12" cy="16" r="1" fill="currentColor" />
+    </svg>
+  );
+}
 
 // Sample leads for demo (in production, these come from the API)
 const sampleLeads: Lead[] = [
@@ -191,7 +233,7 @@ function DashboardContent() {
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+        <Spinner className="w-8 h-8 text-[#0047AB]" />
       </div>
     );
   }
@@ -202,13 +244,13 @@ function DashboardContent() {
       {success === "true" && (
         <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 mb-6 flex items-center gap-4">
           <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-            <Zap className="w-5 h-5 text-emerald-400" />
+            <LightningIcon className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
             <p className="text-white font-medium">
               {plan === "month" ? "Welcome to Pro!" : `${plan === "day" ? "Day" : "Week"} Pass Activated!`}
             </p>
-            <p className="text-zinc-400 text-sm">
+            <p className="text-[#6D8196] text-sm">
               You now have full access to all leads and features.
             </p>
           </div>
@@ -219,7 +261,7 @@ function DashboardContent() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold text-white mb-1">Lead Radar</h1>
-          <p className="text-zinc-400">
+          <p className="text-[#6D8196]">
             {leads.length} high-intent leads found
           </p>
         </div>
@@ -228,33 +270,34 @@ function DashboardContent() {
 
       {/* Access Notice */}
       {!hasAccess && (
-        <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-6 mb-6">
+        <div className="bg-[#0047AB]/10 border border-[#0047AB]/20 rounded-xl p-6 mb-6">
           <div className="flex items-start gap-4">
-            <AlertCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-0.5" />
+            <AlertIcon className="w-6 h-6 text-[#82C8E5] flex-shrink-0 mt-0.5" />
             <div className="flex-1">
               <p className="text-white font-semibold text-lg mb-1">Unlock Full Access</p>
-              <p className="text-zinc-400 text-sm mb-4">
+              <p className="text-[#6D8196] text-sm mb-4">
                 Get contact info, AI icebreakers, and close more deals.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button
                   onClick={() => handleBuyPlan("day")}
                   variant="outline"
-                  className="border-zinc-700 hover:bg-zinc-800 text-white"
+                  className="border-[#1e3a5f] hover:bg-[#1e3a5f] text-white"
                 >
-                  <Clock className="w-4 h-4 mr-2" />
+                  <TimerIcon className="w-4 h-4 mr-2" />
                   Day Pass - $4.99
                 </Button>
                 <Button
                   onClick={() => handleBuyPlan("week")}
-                  className="bg-indigo-500 hover:bg-indigo-400 text-white"
+                  variant="glow"
+                  className="text-white"
                 >
                   Week Pass - $9.99
                 </Button>
                 <Button
                   onClick={() => handleBuyPlan("month")}
                   variant="outline"
-                  className="border-zinc-700 hover:bg-zinc-800 text-white"
+                  className="border-[#1e3a5f] hover:bg-[#1e3a5f] text-white"
                 >
                   Monthly Pro - $29
                 </Button>
@@ -267,19 +310,19 @@ function DashboardContent() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex flex-col items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mb-4" />
-          <p className="text-zinc-400">Loading leads...</p>
+          <Spinner className="w-8 h-8 text-[#0047AB] mb-4" />
+          <p className="text-[#6D8196]">Loading leads...</p>
         </div>
       )}
 
       {/* Empty State */}
       {!isLoading && leads.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-zinc-800 flex items-center justify-center mb-4">
-            <Radar className="w-8 h-8 text-zinc-500" />
+          <div className="w-16 h-16 rounded-2xl bg-[#1e3a5f] flex items-center justify-center mb-4">
+            <RadarIcon className="w-8 h-8 text-[#6D8196]" />
           </div>
           <h3 className="text-lg font-semibold text-white mb-2">No leads found</h3>
-          <p className="text-zinc-400 max-w-sm">
+          <p className="text-[#6D8196] max-w-sm">
             No leads match this filter. Try selecting a different niche or check back later.
           </p>
         </div>
@@ -314,7 +357,26 @@ export default function DashboardPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="w-8 h-8 text-indigo-400 animate-spin" />
+          <svg
+            className="animate-spin w-8 h-8 text-[#0047AB]"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
         </div>
       }
     >

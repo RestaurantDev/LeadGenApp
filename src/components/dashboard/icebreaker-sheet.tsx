@@ -10,14 +10,53 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Sparkles, 
-  Copy, 
-  ExternalLink, 
-  Check,
-  Loader2 
-} from "lucide-react";
+import { StarsIcon, CheckIcon } from "@/components/icons";
 import { Lead } from "@/lib/supabase";
+
+// Icon components
+function CopyIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
+function SpinnerIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={`animate-spin ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      />
+    </svg>
+  );
+}
 
 interface IcebreakerSheetProps {
   lead: Lead | null;
@@ -104,20 +143,20 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
 
   return (
     <Sheet open={isOpen} onOpenChange={handleOpenChange}>
-      <SheetContent className="bg-zinc-900 border-zinc-800 w-full sm:max-w-lg">
+      <SheetContent className="bg-[#0a1628] border-[#1e3a5f] w-full sm:max-w-lg">
         <SheetHeader className="mb-6">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-indigo-400" />
+            <div className="w-8 h-8 rounded-lg bg-[#0047AB]/20 flex items-center justify-center">
+              <StarsIcon className="w-4 h-4 text-[#82C8E5]" animated />
             </div>
-            <Badge className="bg-indigo-500/10 text-indigo-400 border-indigo-500/20">
+            <Badge className="bg-[#0047AB]/10 text-[#82C8E5] border-[#0047AB]/20">
               AI Powered
             </Badge>
           </div>
           <SheetTitle className="text-white text-xl">
             Generate Icebreakers
           </SheetTitle>
-          <SheetDescription className="text-zinc-400">
+          <SheetDescription className="text-[#6D8196]">
             {lead && (
               <>
                 Personalized opening messages for this {nicheLabels[lead.niche] || lead.niche} lead.
@@ -128,8 +167,8 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
 
         {/* Original Post Preview */}
         {lead && (
-          <div className="bg-zinc-800/50 rounded-xl p-4 mb-6 border border-zinc-700">
-            <p className="text-sm text-zinc-300 line-clamp-3">
+          <div className="bg-[#030712]/50 rounded-xl p-4 mb-6 border border-[#1e3a5f]">
+            <p className="text-sm text-[#6D8196] line-clamp-3">
               &ldquo;{lead.content}&rdquo;
             </p>
           </div>
@@ -138,8 +177,8 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
         {/* Loading State */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 text-indigo-400 animate-spin mb-4" />
-            <p className="text-zinc-400 text-sm">Generating personalized icebreakers...</p>
+            <SpinnerIcon className="w-8 h-8 text-[#0047AB] mb-4" />
+            <p className="text-[#6D8196] text-sm">Generating personalized icebreakers...</p>
           </div>
         )}
 
@@ -163,14 +202,14 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
             {icebreakers.map((icebreaker, index) => (
               <div
                 key={index}
-                className="bg-zinc-800/50 rounded-xl p-4 border border-zinc-700 hover:border-zinc-600 transition-colors"
+                className="bg-[#030712]/50 rounded-xl p-4 border border-[#1e3a5f] hover:border-[#0047AB]/30 transition-colors"
               >
                 {/* Option Label */}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
+                  <span className="text-xs font-medium text-[#6D8196] uppercase tracking-wider">
                     Option {index + 1}
                   </span>
-                  <span className="text-xs text-zinc-500">
+                  <span className="text-xs text-[#6D8196]">
                     {icebreaker.length} characters
                   </span>
                 </div>
@@ -185,25 +224,26 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
                   <Button
                     onClick={() => handleCopy(icebreaker, index)}
                     variant="outline"
-                    className="flex-1 border-zinc-700 hover:bg-zinc-700 text-white h-9"
+                    className="flex-1 border-[#1e3a5f] hover:bg-[#1e3a5f] text-white h-9"
                   >
                     {copiedIndex === index ? (
                       <>
-                        <Check className="w-4 h-4 mr-2 text-emerald-400" />
+                        <CheckIcon className="w-4 h-4 mr-2 text-emerald-400" />
                         Copied!
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4 mr-2" />
+                        <CopyIcon className="w-4 h-4 mr-2" />
                         Copy
                       </>
                     )}
                   </Button>
                   <Button
                     onClick={() => handleOpenAndCopy(icebreaker, index)}
-                    className="flex-1 bg-indigo-500 hover:bg-indigo-400 text-white h-9"
+                    variant="glow"
+                    className="flex-1 text-white h-9"
                   >
-                    <ExternalLink className="w-4 h-4 mr-2" />
+                    <ExternalLinkIcon className="w-4 h-4 mr-2" />
                     Copy & Open
                   </Button>
                 </div>
@@ -217,9 +257,9 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
           <Button
             onClick={generateIcebreakers}
             variant="outline"
-            className="w-full mt-6 border-zinc-700 hover:bg-zinc-800 text-zinc-300"
+            className="w-full mt-6 border-[#1e3a5f] hover:bg-[#1e3a5f] text-[#6D8196]"
           >
-            <Sparkles className="w-4 h-4 mr-2" />
+            <StarsIcon className="w-4 h-4 mr-2" animated />
             Regenerate Icebreakers
           </Button>
         )}
@@ -227,4 +267,3 @@ export function IcebreakerSheet({ lead, isOpen, onClose }: IcebreakerSheetProps)
     </Sheet>
   );
 }
-

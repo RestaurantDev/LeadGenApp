@@ -44,49 +44,66 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  
+  /* Cobalt Sky Custom Colors */
+  --color-cobalt: #0047AB;
+  --color-navy: #000080;
+  --color-sky: #82C8E5;
+  --color-slate: #6D8196;
 }
 
-/* IntentRadar Premium Dark Theme */
+/* ===========================================
+   COBALT SKY THEME
+   "From bright cobalt to deep navy, this range 
+   feels both credible and energetic, like 
+   twilight shifting into night."
+   =========================================== */
+
 :root {
   --radius: 0.625rem;
-  /* Dark mode by default - Premium Dark */
-  --background: #0a0a0b;
-  --foreground: #fafafa;
-  --card: #141416;
-  --card-foreground: #fafafa;
-  --popover: #141416;
-  --popover-foreground: #fafafa;
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --accent: #6366f1;
-  --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #6366f1;
-  --chart-1: #6366f1;
-  --chart-2: #10b981;
-  --chart-3: #f59e0b;
-  --chart-4: #ec4899;
-  --chart-5: #8b5cf6;
-  --sidebar: #141416;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #27272a;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #27272a;
-  --sidebar-ring: #6366f1;
   
-  /* Custom IntentRadar Colors */
+  /* Cobalt Sky - Dark Mode */
+  --background: #030712;
+  --foreground: #f8fafc;
+  --card: #0a1628;
+  --card-foreground: #f8fafc;
+  --popover: #0a1628;
+  --popover-foreground: #f8fafc;
+  --primary: #0047AB;
+  --primary-foreground: #ffffff;
+  --secondary: #1e3a5f;
+  --secondary-foreground: #f8fafc;
+  --muted: #0f172a;
+  --muted-foreground: #6D8196;
+  --accent: #82C8E5;
+  --accent-foreground: #030712;
+  --destructive: #ef4444;
+  --border: #1e3a5f;
+  --input: #1e3a5f;
+  --ring: #0047AB;
+  
+  /* Charts */
+  --chart-1: #0047AB;
+  --chart-2: #10b981;
+  --chart-3: #82C8E5;
+  --chart-4: #000080;
+  --chart-5: #6D8196;
+  
+  /* Sidebar */
+  --sidebar: #0a1628;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #0047AB;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e3a5f;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #1e3a5f;
+  --sidebar-ring: #0047AB;
+  
+  /* Custom Semantic Colors */
   --success: #10b981;
   --warning: #f59e0b;
-  --surface: #141416;
-  --surface-hover: #1c1c1f;
+  --surface: #0a1628;
+  --surface-hover: #0f2847;
 }
 
 @layer base {
@@ -98,23 +115,18 @@
   }
 }
 
-/* Custom Animations */
+/* ===========================================
+   ORIGINAL ANIMATIONS
+   =========================================== */
+
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 @keyframes pulse-dot {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes fade-in-up {
@@ -147,18 +159,298 @@
 .animate-delay-400 { animation-delay: 400ms; }
 .animate-delay-500 { animation-delay: 500ms; }
 
-/* Gradient backgrounds */
+/* Gradient backgrounds - Cobalt Sky */
 .bg-hero-gradient {
-  background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+  background: radial-gradient(ellipse at top, rgba(0, 71, 171, 0.2) 0%, transparent 50%),
+              radial-gradient(ellipse at bottom right, rgba(130, 200, 229, 0.1) 0%, transparent 40%);
 }
 
 .bg-cta-gradient {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, #0047AB 0%, #000080 100%);
 }
 
-/* Glassmorphism */
+/* Glassmorphism - Cobalt Sky */
 .glass {
-  background: rgba(20, 20, 22, 0.8);
+  background: rgba(10, 22, 40, 0.9);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(130, 200, 229, 0.1);
+}
+
+/* ===========================================
+   PREMIUM ANIMATIONS
+   =========================================== */
+
+/* Radar sweep animation for logo */
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-radar-sweep {
+  animation: radar-sweep 3s linear infinite;
+  transform-origin: center;
+}
+
+/* Slow spin for outer radar ring */
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Lightning flash effect */
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-flash {
+  animation: flash 2s ease-in-out infinite;
+}
+
+/* Twinkle effect for stars */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.9); }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-twinkle-delay-1 {
+  animation: twinkle 2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.animate-twinkle-delay-2 {
+  animation: twinkle 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Draw checkmark animation */
+@keyframes draw-check {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-draw-check {
+  animation: draw-check 0.4s ease-out forwards;
+}
+
+/* Send/rocket pulse */
+@keyframes send-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05) translateX(2px) translateY(-2px); }
+}
+
+.animate-send-pulse {
+  animation: send-pulse 2s ease-in-out infinite;
+}
+
+/* Tick animation for clock */
+@keyframes tick {
+  0%, 100% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-tick {
+  animation: tick 60s linear infinite;
+}
+
+/* Shake animation for lock */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px) rotate(-2deg); }
+  75% { transform: translateX(3px) rotate(2deg); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* ===========================================
+   BUTTON EFFECTS - Cobalt Sky
+   =========================================== */
+
+/* Ripple effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(130, 200, 229, 0.4);
+  animation: ripple 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Glow pulse for buttons - Cobalt */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 71, 171, 0.4),
+                0 0 40px rgba(130, 200, 229, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 71, 171, 0.6),
+                0 0 60px rgba(130, 200, 229, 0.2);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Gradient border animation */
+@keyframes gradient-rotate {
+  0% { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border {
+  position: relative;
+  background: linear-gradient(var(--background), var(--background)) padding-box,
+              conic-gradient(from var(--angle), #0047AB, #82C8E5, #000080, #0047AB) border-box;
+  border: 2px solid transparent;
+  animation: gradient-rotate 3s linear infinite;
+}
+
+/* Arrow slide on hover */
+@keyframes arrow-slide {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+.group:hover .animate-arrow-slide {
+  animation: arrow-slide 0.6s ease-in-out;
+}
+
+/* ===========================================
+   SCROLL REVEAL UTILITIES
+   =========================================== */
+
+.reveal-hidden { opacity: 0; }
+.reveal-visible { opacity: 1; }
+.reveal-up { transform: translateY(30px); }
+.reveal-down { transform: translateY(-30px); }
+.reveal-left { transform: translateX(30px); }
+.reveal-right { transform: translateX(-30px); }
+.reveal-scale { transform: scale(0.95); }
+.reveal-blur { filter: blur(10px); }
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+  filter: blur(0);
+}
+
+/* ===========================================
+   MICRO-INTERACTIONS
+   =========================================== */
+
+/* Bounce in for badges */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0) translateX(-50%);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) translateX(-50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateX(-50%);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out forwards;
+}
+
+/* Hover lift effect for cards - Cobalt Sky */
+.hover-lift {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+              0 0 40px rgba(0, 71, 171, 0.15);
+}
+
+/* Line draw animation */
+@keyframes draw-line {
+  0% { width: 0; opacity: 0; }
+  100% { width: 100%; opacity: 1; }
+}
+
+.animate-draw-line {
+  animation: draw-line 0.6s ease-out forwards;
+}
+
+/* Counter number animation */
+@keyframes count-up {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-count-up {
+  animation: count-up 0.4s ease-out forwards;
+}
+
+/* Magnetic button hover state */
+.magnetic-hover {
+  transition: transform 0.15s ease-out;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar - Cobalt Sky */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0047AB;
 }

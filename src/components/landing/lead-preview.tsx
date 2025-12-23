@@ -1,10 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, MagneticButtonWrapper } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Lock, ArrowRight } from "lucide-react";
+import { LockIcon, ArrowIcon } from "@/components/icons";
 import { LeadTicker } from "./lead-ticker";
 import Link from "next/link";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 // Platform icons
 function XIcon({ className }: { className?: string }) {
@@ -108,7 +109,7 @@ function NicheBadge({ niche }: { niche: string }) {
   const colors: Record<string, string> = {
     writing: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     video: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    dev: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    dev: "bg-[#0047AB]/10 text-[#82C8E5] border-[#0047AB]/20",
   };
 
   return (
@@ -121,16 +122,25 @@ function NicheBadge({ niche }: { niche: string }) {
 interface LeadCardProps {
   lead: typeof sampleLeads[0];
   blurred?: boolean;
+  isVisible: boolean;
+  delay: number;
 }
 
-function LeadCard({ lead, blurred = false }: LeadCardProps) {
+function LeadCard({ lead, blurred = false, isVisible, delay }: LeadCardProps) {
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors">
+    <div 
+      className="bg-gradient-to-b from-[#0a1628]/80 to-[#030712]/50 border border-[#1e3a5f]/50 rounded-xl p-5 hover:border-[#0047AB]/30 transition-all duration-500 hover-lift"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(20px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
-          <PlatformIcon platform={lead.platform} className="w-5 h-5 text-zinc-400" />
-          <span className="text-sm text-zinc-500">{lead.created_at}</span>
+          <PlatformIcon platform={lead.platform} className="w-5 h-5 text-[#6D8196]" />
+          <span className="text-sm text-[#6D8196]">{lead.created_at}</span>
         </div>
         <NicheBadge niche={lead.niche} />
       </div>
@@ -141,23 +151,23 @@ function LeadCard({ lead, blurred = false }: LeadCardProps) {
       </p>
 
       {/* Author - Blurred or Visible */}
-      <div className="flex items-center gap-3 pt-3 border-t border-zinc-800">
-        <div className={`w-10 h-10 rounded-full bg-zinc-700 ${blurred ? "blur-sm" : ""}`} />
+      <div className="flex items-center gap-3 pt-3 border-t border-[#1e3a5f]/50">
+        <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-[#1e3a5f] to-[#0a1628] ${blurred ? "blur-sm" : ""}`} />
         <div className="flex-1">
           <div className={`flex items-center gap-2 ${blurred ? "relative" : ""}`}>
             <span className={`text-sm font-medium text-white ${blurred ? "blur-sm select-none" : ""}`}>
               {lead.author_name}
             </span>
             {blurred && (
-              <Lock className="w-3 h-3 text-zinc-500 absolute left-1/2 -translate-x-1/2" />
+              <LockIcon className="w-3 h-3 text-[#6D8196] absolute left-1/2 -translate-x-1/2" />
             )}
           </div>
           <div className={`flex items-center gap-2 ${blurred ? "relative" : ""}`}>
-            <span className={`text-xs text-zinc-500 ${blurred ? "blur-sm select-none" : ""}`}>
+            <span className={`text-xs text-[#6D8196] ${blurred ? "blur-sm select-none" : ""}`}>
               {lead.author_handle}
             </span>
-            <span className="text-xs text-zinc-600">•</span>
-            <span className="text-xs text-zinc-500">
+            <span className="text-xs text-[#1e3a5f]">•</span>
+            <span className="text-xs text-[#6D8196]">
               {lead.follower_count.toLocaleString()} followers
             </span>
           </div>
@@ -168,22 +178,37 @@ function LeadCard({ lead, blurred = false }: LeadCardProps) {
 }
 
 export function LeadPreview() {
+  const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 });
+
   return (
-    <section className="py-20 relative">
+    <section className="py-24 relative" ref={ref}>
       <div className="max-w-4xl mx-auto px-6">
         {/* Section Header */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <h2 className="text-2xl md:text-3xl font-semibold text-white text-center">
+        <div 
+          className="flex items-center justify-center gap-3 mb-10 transition-all duration-700"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(20px)",
+          }}
+        >
+          <h2 className="text-2xl md:text-4xl font-bold text-white text-center">
             See What&apos;s Happening Right Now
           </h2>
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-dot" />
             <span className="text-xs font-medium text-emerald-400">Live</span>
           </div>
         </div>
 
         {/* Lead Ticker */}
-        <div className="mb-8 rounded-xl overflow-hidden">
+        <div 
+          className="mb-10 rounded-xl overflow-hidden transition-all duration-700"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(20px)",
+            transitionDelay: "100ms",
+          }}
+        >
           <LeadTicker />
         </div>
 
@@ -192,32 +217,51 @@ export function LeadPreview() {
           {/* Cards Grid */}
           <div className="space-y-4">
             {sampleLeads.map((lead, index) => (
-              <LeadCard key={lead.id} lead={lead} blurred={true} />
+              <LeadCard 
+                key={lead.id} 
+                lead={lead} 
+                blurred={true}
+                isVisible={isVisible}
+                delay={200 + index * 100}
+              />
             ))}
           </div>
 
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-[#0a0a0b]/80 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/80 to-transparent pointer-events-none" />
 
           {/* CTA Overlay */}
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-center pb-8 pointer-events-none">
-            <div className="glass rounded-2xl p-8 text-center max-w-md pointer-events-auto">
-              <Lock className="w-10 h-10 text-indigo-400 mx-auto mb-4" />
+            <div 
+              className="glass rounded-2xl p-8 text-center max-w-md pointer-events-auto transition-all duration-700"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? "translateY(0) scale(1)" : "translateY(20px) scale(0.95)",
+                transitionDelay: "500ms",
+              }}
+            >
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0047AB]/20 to-[#000080]/20 border border-[#0047AB]/30 flex items-center justify-center mx-auto mb-5">
+                <LockIcon className="w-7 h-7 text-[#82C8E5]" />
+              </div>
               <h3 className="text-xl font-semibold text-white mb-2">
                 Unlock 2,400+ Verified Leads
               </h3>
-              <p className="text-zinc-400 text-sm mb-6">
+              <p className="text-[#6D8196] text-sm mb-6">
                 Get instant access to contact info and AI-powered icebreakers. Day passes start at $4.99.
               </p>
-              <Button
-                asChild
-                className="w-full bg-indigo-500 hover:bg-indigo-400 text-white rounded-full h-12 font-medium group"
-              >
-                <Link href="/#pricing">
-                  View Pricing
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
+              <MagneticButtonWrapper>
+                <Button
+                  asChild
+                  variant="glow"
+                  size="xl"
+                  className="w-full rounded-full group"
+                >
+                  <Link href="/#pricing">
+                    View Pricing
+                    <ArrowIcon className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </MagneticButtonWrapper>
             </div>
           </div>
         </div>

@@ -26,16 +26,16 @@ export function NicheTabs() {
   };
 
   return (
-    <div className="flex items-center gap-2 p-1 bg-zinc-900/50 rounded-full border border-zinc-800">
+    <div className="flex items-center gap-2 p-1 bg-[#0a1628]/50 rounded-full border border-[#1e3a5f]/50">
       {niches.map((niche) => (
         <button
           key={niche.id}
           onClick={() => handleTabClick(niche.id)}
           className={cn(
-            "px-4 py-2 rounded-full text-sm font-medium transition-all",
+            "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
             activeNiche === niche.id
-              ? "bg-indigo-500 text-white"
-              : "text-zinc-400 hover:text-white hover:bg-zinc-800"
+              ? "bg-[#0047AB] text-white shadow-lg shadow-[#0047AB]/20"
+              : "text-[#6D8196] hover:text-white hover:bg-[#1e3a5f]"
           )}
         >
           {niche.label}
@@ -44,4 +44,3 @@ export function NicheTabs() {
     </div>
   );
 }
-

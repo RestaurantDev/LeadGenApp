@@ -3,14 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Lock, 
-  Sparkles, 
-  Bookmark, 
-  CheckCircle, 
-  EyeOff,
-  ExternalLink 
-} from "lucide-react";
+import { LockIcon, StarsIcon, CheckIcon } from "@/components/icons";
 import { Lead } from "@/lib/supabase";
 
 // Platform icons
@@ -38,6 +31,34 @@ function RedditIcon({ className }: { className?: string }) {
   );
 }
 
+// Additional icons for actions
+function BookmarkIcon({ className, filled }: { className?: string; filled?: boolean }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+function EyeOffIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
 function PlatformIcon({ platform, className }: { platform: string; className?: string }) {
   switch (platform) {
     case "x":
@@ -61,7 +82,7 @@ function NicheBadge({ niche }: { niche: string }) {
   const colors: Record<string, string> = {
     writing: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     video: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    dev: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    dev: "bg-[#0047AB]/10 text-[#82C8E5] border-[#0047AB]/20",
   };
 
   return (
@@ -99,12 +120,12 @@ export function LeadCard({ lead, isSubscribed, onGenerateIcebreaker }: LeadCardP
   };
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-all">
+    <div className="bg-gradient-to-b from-[#0a1628]/80 to-[#030712]/50 border border-[#1e3a5f]/50 rounded-xl p-5 hover:border-[#0047AB]/30 transition-all hover-lift">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <PlatformIcon platform={lead.platform} className="w-5 h-5 text-zinc-400" />
-          <span className="text-sm text-zinc-500">{getRelativeTime(lead.created_at)}</span>
+          <PlatformIcon platform={lead.platform} className="w-5 h-5 text-[#6D8196]" />
+          <span className="text-sm text-[#6D8196]">{getRelativeTime(lead.created_at)}</span>
           {lead.is_high_signal && (
             <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20 text-xs">
               High Signal
@@ -120,14 +141,14 @@ export function LeadCard({ lead, isSubscribed, onGenerateIcebreaker }: LeadCardP
       </p>
 
       {/* Author Section */}
-      <div className="flex items-center gap-3 pt-4 border-t border-zinc-800 mb-4">
+      <div className="flex items-center gap-3 pt-4 border-t border-[#1e3a5f]/50 mb-4">
         {/* Avatar */}
-        <div className={`w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center ${!isSubscribed ? "blur-sm" : ""}`}>
+        <div className={`w-10 h-10 rounded-full bg-[#1e3a5f] flex items-center justify-center ${!isSubscribed ? "blur-sm" : ""}`}>
           {lead.author_avatar ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={lead.author_avatar} alt="" className="w-full h-full rounded-full object-cover" />
           ) : (
-            <span className="text-zinc-400 text-sm font-medium">
+            <span className="text-[#6D8196] text-sm font-medium">
               {lead.author_name?.charAt(0) || "?"}
             </span>
           )}
@@ -137,7 +158,7 @@ export function LeadCard({ lead, isSubscribed, onGenerateIcebreaker }: LeadCardP
         <div className="flex-1 relative">
           {!isSubscribed && (
             <div className="absolute inset-0 flex items-center justify-center z-10">
-              <Lock className="w-4 h-4 text-zinc-500" />
+              <LockIcon className="w-4 h-4 text-[#6D8196]" />
             </div>
           )}
           <div className={!isSubscribed ? "blur-sm select-none" : ""}>
@@ -145,11 +166,11 @@ export function LeadCard({ lead, isSubscribed, onGenerateIcebreaker }: LeadCardP
               {lead.author_name || "Unknown"}
             </span>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-[#6D8196]">
                 {lead.author_handle || "@unknown"}
               </span>
-              <span className="text-xs text-zinc-600">•</span>
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-[#1e3a5f]">•</span>
+              <span className="text-xs text-[#6D8196]">
                 {lead.follower_count.toLocaleString()} followers
               </span>
             </div>
@@ -163,50 +184,51 @@ export function LeadCard({ lead, isSubscribed, onGenerateIcebreaker }: LeadCardP
           <>
             <Button
               onClick={() => onGenerateIcebreaker(lead)}
-              className="flex-1 bg-indigo-500 hover:bg-indigo-400 text-white rounded-lg h-10 gap-2"
+              variant="glow"
+              className="flex-1 text-white rounded-lg h-10 gap-2"
             >
-              <Sparkles className="w-4 h-4" />
+              <StarsIcon className="w-4 h-4" animated />
               Generate Icebreaker
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="border-zinc-700 hover:bg-zinc-800 h-10 w-10"
+              className="border-[#1e3a5f] hover:bg-[#1e3a5f] h-10 w-10"
               onClick={() => handleStatusChange("saved")}
             >
-              <Bookmark className={`w-4 h-4 ${status === "saved" ? "fill-current text-indigo-400" : "text-zinc-400"}`} />
+              <BookmarkIcon className={`w-4 h-4 ${status === "saved" ? "fill-[#82C8E5] text-[#82C8E5]" : "text-[#6D8196]"}`} filled={status === "saved"} />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="border-zinc-700 hover:bg-zinc-800 h-10 w-10"
+              className="border-[#1e3a5f] hover:bg-[#1e3a5f] h-10 w-10"
               onClick={() => handleStatusChange("contacted")}
             >
-              <CheckCircle className={`w-4 h-4 ${status === "contacted" ? "fill-current text-emerald-400" : "text-zinc-400"}`} />
+              <CheckIcon className={`w-4 h-4 ${status === "contacted" ? "text-emerald-400" : "text-[#6D8196]"}`} />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="border-zinc-700 hover:bg-zinc-800 h-10 w-10"
+              className="border-[#1e3a5f] hover:bg-[#1e3a5f] h-10 w-10"
               onClick={() => handleStatusChange("hidden")}
             >
-              <EyeOff className={`w-4 h-4 ${status === "hidden" ? "text-red-400" : "text-zinc-400"}`} />
+              <EyeOffIcon className={`w-4 h-4 ${status === "hidden" ? "text-red-400" : "text-[#6D8196]"}`} />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="border-zinc-700 hover:bg-zinc-800 h-10 w-10"
+              className="border-[#1e3a5f] hover:bg-[#1e3a5f] h-10 w-10"
               onClick={() => window.open(lead.source_url, "_blank")}
             >
-              <ExternalLink className="w-4 h-4 text-zinc-400" />
+              <ExternalLinkIcon className="w-4 h-4 text-[#6D8196]" />
             </Button>
           </>
         ) : (
           <Button
-            className="w-full bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg h-10 gap-2"
+            className="w-full bg-[#1e3a5f] hover:bg-[#2a4a6f] text-white rounded-lg h-10 gap-2"
             onClick={() => window.location.href = "/api/stripe/checkout"}
           >
-            <Lock className="w-4 h-4" />
+            <LockIcon className="w-4 h-4" />
             Upgrade to Unlock
           </Button>
         )}
@@ -214,4 +236,3 @@ export function LeadCard({ lead, isSubscribed, onGenerateIcebreaker }: LeadCardP
     </div>
   );
 }
-
